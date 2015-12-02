@@ -1,0 +1,4 @@
+DUP
+IN
+GOTO offset
+IF_ICMPEQ offset
