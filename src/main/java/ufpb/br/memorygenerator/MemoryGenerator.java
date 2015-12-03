@@ -1,8 +1,6 @@
 package main.java.ufpb.br.memorygenerator;
 
 import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -39,15 +37,12 @@ public class MemoryGenerator {
         }
     }
 
-    public Instructions loadInstructions(URL instructionsUrl) throws IOException {
-        Path inputPath;
+    public Instructions loadInstructions(String path) throws IOException {
+        Path inputPath = Paths.get(path);
         HashMap<String, List<String>> instructions = new HashMap<String, List<String>>();
-        if(instructionsUrl == null)
-            throw new IOException("Invalid instructions file!");
 
-        try {
-            inputPath = Paths.get(instructionsUrl.toURI());
-            try(BufferedReader br = new BufferedReader(new FileReader(inputPath.toFile()))) {
+        if(Files.isRegularFile(inputPath) && Files.isReadable(inputPath)) {
+            try (BufferedReader br = new BufferedReader(new FileReader(inputPath.toFile()))) {
                 String readLine;
                 String[] splittedStrings;
                 List<String> bits;
@@ -58,7 +53,7 @@ public class MemoryGenerator {
                     splittedStrings = readLine.split("\\s+");
                     instructionLines = Integer.parseInt(splittedStrings[splittedStrings.length - 1]);
 
-                    for(int i = 0; i < instructionLines; i++){
+                    for (int i = 0; i < instructionLines; i++) {
                         readLine = br.readLine();
                         bits.add(readLine);
                     }
@@ -71,8 +66,8 @@ public class MemoryGenerator {
             result.setInstructions(instructions);
 
             return result;
-        } catch (URISyntaxException e) {
-            throw new IOException("URISyntaxException!");
+        } else {
+            throw new IOException("Invalid instructions file!");
         }
     }
 

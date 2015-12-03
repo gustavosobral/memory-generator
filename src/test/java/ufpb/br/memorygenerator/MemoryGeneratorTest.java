@@ -13,7 +13,6 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -41,9 +40,8 @@ public class MemoryGeneratorTest {
     public void missingInstructionsFile() {
         MemoryGenerator memoryGen = new MemoryGenerator();
         IOException exception = null;
-        URL urlToInstructions = this.getClass().getResource("/main/resources/" + "instructionss");
         try {
-            memoryGen.loadInstructions(urlToInstructions);
+            memoryGen.loadInstructions("/main/resources/instructionss");
         } catch (IOException e) {
             exception = e;
         }
@@ -94,7 +92,7 @@ public class MemoryGeneratorTest {
         URL urlToInstructions = this.getClass().getResource("/main/resources/" + "instructions");
         Instructions instructions = new Instructions();
         try {
-            instructions = memoryGen.loadInstructions(urlToInstructions);
+            instructions = memoryGen.loadInstructions(urlToInstructions.getPath());
         } catch (IOException e) {
             exception = e;
         }
@@ -118,7 +116,7 @@ public class MemoryGeneratorTest {
             File outF = new File(out.toURI());
 
             InputFile inputFile = memoryGen.readInput(inF.getAbsolutePath());
-            Instructions instructions = memoryGen.loadInstructions(urlToInstructions);
+            Instructions instructions = memoryGen.loadInstructions(urlToInstructions.getPath());
             memoryGen.writeOutput(outF.getAbsolutePath(), inputFile, instructions);
 
             for (String line : Files.readAllLines(Paths.get(outF.getAbsolutePath()), StandardCharsets.UTF_8)) {
