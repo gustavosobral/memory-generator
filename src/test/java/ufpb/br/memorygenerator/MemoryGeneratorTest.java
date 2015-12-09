@@ -68,7 +68,7 @@ public class MemoryGeneratorTest {
         InputFile inputFile = new InputFile();
 
         try {
-            URL input = this.getClass().getResource("/main/resources/" + "input1");
+            URL input = this.getClass().getResource("/main/resources/" + "readValidInputTest_input");
             File f = new File(input.toURI());
             inputFile = memoryGen.readInput(f.getAbsolutePath());
         } catch (IOException e) {
@@ -96,11 +96,11 @@ public class MemoryGeneratorTest {
         } catch (IOException e) {
             exception = e;
         }
-        Assert.assertEquals("000001011000001101010000010010000100", instructions.getInstructions().get("DUP").get(0));
+        Assert.assertEquals("000001000000001101010000010010000100", instructions.getInstructions().get("DUP").get(0));
         Assert.assertEquals("000000010000000101000000000101000111", instructions.getInstructions().get("DUP").get(1));
-        Assert.assertEquals("010001111000001111000100000000001000", instructions.getInstructions().get("IN").get(1));
-        Assert.assertEquals("010010001000001101010000010010000100", instructions.getInstructions().get("IN").get(3));
-        Assert.assertEquals("000001101000000000000000000000000000", instructions.getInstructions().get("POP").get(1));
+        Assert.assertEquals("000001001000000101000000000010000100", instructions.getInstructions().get("SWAP").get(1));
+        Assert.assertEquals("000001011000000101000000000100000111", instructions.getInstructions().get("SWAP").get(3));
+        Assert.assertEquals("000001001000000000000000000000000000", instructions.getInstructions().get("POP").get(1));
     }
 
     @Test
@@ -110,9 +110,9 @@ public class MemoryGeneratorTest {
 
         try {
             URL urlToInstructions = this.getClass().getResource("/main/resources/" + "instructions");
-            URL in = this.getClass().getResource("/main/resources/" + "input2");
+            URL in = this.getClass().getResource("/main/resources/" + "writeOutputTest_input");
             File inF = new File(in.toURI());
-            URL out = this.getClass().getResource("/main/resources/" + "output2");
+            URL out = this.getClass().getResource("/main/resources/" + "writeOutputTest_output");
             File outF = new File(out.toURI());
 
             InputFile inputFile = memoryGen.readInput(inF.getAbsolutePath());
@@ -124,9 +124,10 @@ public class MemoryGeneratorTest {
             }
 
             Assert.assertNotEquals(0, output.size());
-            Assert.assertEquals("010001110000000100101100000000000000", output.get(0));
-            Assert.assertEquals("010010001000001101010000010010000100", output.get(3));
-            Assert.assertEquals("000000001000000101000010000001000000", output.get(4));
+            Assert.assertEquals("000001000000001101010000010010000100", output.get(0));
+            Assert.assertEquals("000001001000000101000000000010000100", output.get(3));
+            Assert.assertEquals("000001010000000101001000000001000000", output.get(4));
+            Assert.assertEquals("000000010000000110000010000000000000", output.get(7));
 
         } catch (IOException e) {
             e.printStackTrace();
